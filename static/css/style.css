@@ -1,0 +1,97 @@
+/* Variables */
+:root {
+    --primary: #2563eb;
+    --heart: #ef4444;
+    --brain: #3b82f6;
+}
+
+/* Header Styling */
+.hospital-header {
+    background: white;
+    padding: 1.5rem 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.logo-area h1 { font-weight: 900; color: var(--primary); font-size: 1.5rem; letter-spacing: -1px; }
+.logo-area span { font-size: 0.7rem; text-transform: uppercase; color: #94a3b8; letter-spacing: 2px; }
+
+/* Card Styling */
+.card {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 2rem;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+
+.card:hover { transform: translateY(-10px); border-color: var(--primary); }
+
+.icon-box {
+    width: 60px;
+    height: 60px;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.heart-card .icon-box { background: #fef2f2; color: var(--heart); }
+.brain-card .icon-box { background: #eff6ff; color: var(--brain); }
+
+/* Modal Logic - Hidden by Default */
+.modal-overlay {
+    display: none; /* Crucial: Page load par hidden rahega */
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(5px);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal-content {
+    background: white;
+    width: 100%;
+    max-width: 600px;
+    border-radius: 2rem;
+    padding: 2.5rem;
+    position: relative;
+}
+
+.close-btn { position: absolute; top: 20px; right: 25px; font-size: 2rem; cursor: pointer; color: #94a3b8; }
+
+/* Dynamic Form Grid */
+.dynamic-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem; }
+.form-group input, .dynamic-grid input {
+    width: 100%;
+    padding: 0.8rem;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.8rem;
+    outline: none;
+}
+
+.submit-btn {
+    width: 100%;
+    background: var(--primary);
+    color: white;
+    padding: 1rem;
+    border-radius: 1rem;
+    font-weight: bold;
+    margin-top: 2rem;
+}
+
+/* Video/Result Box */
+.video-container { width: 100%; aspect-ratio: 16/9; background: black; position: relative; border-radius: 1.5rem 1.5rem 0 0; overflow: hidden; }
+.spinner { width: 40px; height: 40px; border: 4px solid #3b82f6; border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 1rem;}
+
+@keyframes spin { to { transform: rotate(360deg); } }

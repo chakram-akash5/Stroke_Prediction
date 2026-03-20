@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Diagnostic Report | NeuroCardiaX</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 p-10">
+    <div class="max-w-3xl mx-auto bg-white shadow-2xl rounded-3xl overflow-hidden">
+        <div class="bg-blue-900 text-white p-8">
+            <h1 class="text-3xl font-black">DIAGNOSTIC REPORT</h1>
+            <p class="opacity-70 uppercase tracking-widest text-sm">Chakram Memorial Research Wing</p>
+        </div>
+        
+        <div class="p-10">
+            <div class="flex justify-between border-b pb-6 mb-6">
+                <div>
+                    <p class="text-slate-400 text-xs uppercase font-bold">Patient Name</p>
+                    <p class="text-xl font-bold text-slate-800">{{ name }}</p>
+                </div>
+                <div class="text-right">
+                    <p class="text-slate-400 text-xs uppercase font-bold">Analysis Type</p>
+                    <p class="text-xl font-bold text-blue-600 uppercase">{{ type }}</p>
+                </div>
+            </div>
+
+            <div class="text-center py-10 rounded-2xl {{ 'bg-red-50' if prediction == 1 else 'bg-green-50' }}">
+                <h2 class="text-sm font-bold uppercase tracking-widest text-slate-500 mb-2">Conclusion</h2>
+                <p class="text-4xl font-black {{ 'text-red-600' if prediction == 1 else 'text-green-600' }}">
+                    {{ 'HIGH RISK DETECTED' if prediction == 1 else 'CONDITION STABLE' }}
+                </p>
+            </div>
+
+            <div class="mt-10 space-y-4 text-sm text-slate-600">
+                <h3 class="font-bold text-slate-800 border-b pb-2">Medical Observations:</h3>
+                <p>• Based on the provided vitals (Age: {{ age }}), our AI model has processed the clinical markers.</p>
+                {% if type == 'heart' %}
+                    <p>• Specialized markers analyzed: Ejection Fraction, Serum Creatinine, and Platelet count.</p>
+                {% else %}
+                    <p>• Specialized markers analyzed: BMI, Average Glucose Level, and Hypertension status.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="bg-slate-50 p-6 flex justify-between items-center border-t">
+            <p class="text-xs text-slate-400">Chief MD: <span class="font-bold text-slate-600">Akash Kumar Chakram</span></p>
+            <a href="/" class="px-6 py-2 bg-slate-900 text-white rounded-lg text-sm font-bold">New Analysis</a>
+        </div>
+    </div>
+</body>
+</html>
