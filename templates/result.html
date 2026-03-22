@@ -2,140 +2,126 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Diagnostic Report | Stroke_Prediction</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroCardiaX | Digital Health Report</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #020617; color: #f8fafc; }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .gradient-border { position: relative; border-radius: 2rem; }
+        .gradient-border::after {
+            content: ''; position: absolute; inset: -1px; border-radius: 2rem;
+            padding: 1px; background: linear-gradient(to right, #3b82f6, #8b5cf6);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude; pointer-events: none;
+        }
+    </style>
 </head>
 
-<body class="bg-slate-50 p-10">
+<body class="p-6 md:p-12 min-h-screen flex items-center justify-center">
 
-<div class="max-w-3xl mx-auto bg-white shadow-2xl rounded-3xl overflow-hidden">
+<div class="max-w-4xl w-full glass rounded-[2.5rem] overflow-hidden shadow-2xl relative">
 
-    <!-- Header -->
-    <div class="bg-blue-900 text-white p-8">
-        <h1 class="text-3xl font-black">DIAGNOSTIC REPORT</h1>
-        <p class="opacity-70 uppercase tracking-widest text-sm">Chakram Memorial Research Wing</p>
+    <div class="p-8 border-b border-white/5 flex justify-between items-center bg-white/5">
+        <div>
+            <h1 class="text-xs uppercase tracking-[0.4em] text-blue-500 font-bold mb-1">Clinical Transcript</h1>
+            <p class="text-2xl font-black text-white">NeuroCardiaX <span class="text-blue-500">AI</span></p>
+        </div>
+        <div class="text-right">
+            <p class="text-[10px] text-slate-500 uppercase font-bold">Lab Reference</p>
+            <p class="text-xs font-mono text-slate-300">#{{ range(1000, 9999)|random }}</p>
+        </div>
     </div>
 
-    <div class="p-10">
-
-
-        <div class="flex justify-between border-b pb-6 mb-6">
-            <div>
-                <p class="text-slate-400 text-xs uppercase font-bold">Patient Name</p>
-                <p class="text-xl font-bold text-slate-800">{{ name }}</p>
+    <div class="p-8 md:p-12">
+        <div class="grid md:grid-cols-2 gap-8 mb-12">
+            <div class="space-y-1">
+                <p class="text-[10px] text-blue-400 uppercase font-black tracking-widest">Subject Name</p>
+                <h2 class="text-3xl font-bold text-white">{{ name }}</h2>
+                <p class="text-slate-400 text-sm">Age: {{ age }} Years</p>
             </div>
-            <div class="text-right">
-                <p class="text-slate-400 text-xs uppercase font-bold">Analysis Type</p>
-                <p class="text-xl font-bold text-blue-600 uppercase">{{ type }}</p>
+            <div class="md:text-right space-y-1">
+                <p class="text-[10px] text-blue-400 uppercase font-black tracking-widest">Diagnostic Engine</p>
+                <h2 class="text-2xl font-bold text-white capitalize">{{ type }} Analysis</h2>
+                <p class="text-slate-400 text-sm">Engine: V3.0 Neural Core</p>
             </div>
         </div>
 
+        <div class="gradient-border p-10 bg-white/5 text-center mb-12 relative">
+            <h3 class="text-xs font-bold text-slate-500 uppercase tracking-[0.3em] mb-6">Neural Inference Conclusion</h3>
 
-        <div class="text-center py-10 rounded-2xl
-        {% if prediction >= 60 %} bg-red-50
-        {% elif prediction >= 30 %} bg-yellow-50
-        {% else %} bg-green-50 {% endif %}">
+            <div class="text-8xl md:text-9xl font-black mb-4 tracking-tighter
+                {% if prediction >= 60 %} text-red-500
+                {% elif prediction >= 30 %} text-yellow-400
+                {% else %} text-emerald-400 {% endif %}">
+                {{ prediction|round|int }}%
+            </div>
 
-            <h2 class="text-sm font-bold uppercase tracking-widest text-slate-500 mb-2">Conclusion</h2>
-
-            <p class="text-4xl font-black
-            {% if prediction >= 60 %} text-red-600
-            {% elif prediction >= 30 %} text-yellow-500
-            {% else %} text-green-600 {% endif %}">
-
-                {% if prediction >= 60 %}
-                    HIGH RISK DETECTED
-                {% elif prediction >= 30 %}
-                    MODERATE RISK
-                {% else %}
-                    CONDITION STABLE
-                {% endif %}
+            <p class="text-xl font-bold uppercase tracking-widest mb-4">
+                {% if prediction >= 60 %} CRITICAL RISK DETECTED
+                {% elif prediction >= 30 %} MODERATE CONCERN
+                {% else %} CONDITION OPTIMAL {% endif %}
             </p>
 
+            <div class="max-w-md mx-auto h-1.5 bg-white/10 rounded-full overflow-hidden">
+                <div style="width: {{ prediction }}%;" class="h-full transition-all duration-1000
+                    {% if prediction >= 60 %} bg-red-500
+                    {% elif prediction >= 30 %} bg-yellow-400
+                    {% else %} bg-emerald-500 {% endif %}">
+                </div>
+            </div>
         </div>
 
-
-        <div class="my-10 p-8 rounded-3xl bg-white shadow-sm border border-gray-100">
-            <h3 class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-6">Risk Assessment Meter</h3>
-
-            <div class="flex justify-between mb-2">
-                <span class="text-xs font-semibold px-2 py-1 rounded-full bg-gray-100">
-                    Risk Intensity
-                </span>
-
-                <span class="text-lg font-bold
-                {% if prediction >= 60 %} text-red-600
-                {% elif prediction >= 30 %} text-yellow-500
-                {% else %} text-green-600 {% endif %}">
-                    {{ prediction }}%
-                </span>
-            </div>
-
-            <div class="overflow-hidden h-3 rounded-full bg-gray-200">
-                <div style="width: {{ prediction }}%;"
-                     class="h-full transition-all duration-1000
-                     {% if prediction >= 60 %} bg-red-500
-                     {% elif prediction >= 30 %} bg-yellow-400
-                     {% else %} bg-green-500 {% endif %}">
+        <div class="grid md:grid-cols-2 gap-6">
+            <div class="p-6 rounded-3xl border border-white/5 bg-white/[0.02]">
+                <h4 class="text-[10px] font-black text-blue-500 uppercase tracking-widest mb-4">AI Biometric Analysis</h4>
+                <div class="space-y-3 text-sm text-slate-300">
+                    {% if type == 'heart' %}
+                        <p class="flex justify-between"><span>Ejection Fraction</span> <span class="text-white font-bold">Monitored</span></p>
+                        <p class="flex justify-between"><span>Serum Creatinine</span> <span class="text-white font-bold">Monitored</span></p>
+                        <p class="flex justify-between"><span>Platelet Count</span> <span class="text-white font-bold">Monitored</span></p>
+                    {% else %}
+                        <p class="flex justify-between"><span>BMI Metric</span> <span class="text-white font-bold">Analyzed</span></p>
+                        <p class="flex justify-between"><span>Glucose Index</span> <span class="text-white font-bold">Analyzed</span></p>
+                        <p class="flex justify-between"><span>Hyper-tension</span> <span class="text-white font-bold">Verified</span></p>
+                    {% endif %}
                 </div>
             </div>
 
-            <p class="text-sm text-gray-500 mt-4">
-                Based on clinical markers, AI predicts a
-                {% if prediction >= 60 %}
-                    high-risk cardiovascular / neurological condition.
-                {% elif prediction >= 30 %}
-                    moderate risk condition requiring monitoring.
-                {% else %}
-                    stable condition with low immediate risk.
-                {% endif %}
-            </p>
+            <div class="p-6 rounded-3xl border border-white/5 bg-white/[0.02]">
+                <h4 class="text-[10px] font-black text-purple-500 uppercase tracking-widest mb-4">Clinical Advisory</h4>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    {% if prediction >= 60 %}
+                        High neural confidence in risk detection. We strongly advise an immediate consultation with a specialist to review these biomarkers.
+                    {% elif prediction >= 30 %}
+                        Moderate indicators detected. Regular cardiovascular screening and lifestyle adjustments are suggested to maintain stability.
+                    {% else %}
+                        Current clinical markers are within the optimal range. Continue regular health check-ups to maintain this baseline.
+                    {% endif %}
+                </p>
+            </div>
         </div>
-
-
-        <div class="mt-10 space-y-4 text-sm text-slate-600">
-            <h3 class="font-bold text-slate-800 border-b pb-2">Medical Observations:</h3>
-
-            <p>• Patient Age: <strong>{{ age }}</strong> years</p>
-
-            {% if type == 'heart' %}
-                <p>• Heart model analyzed: Ejection Fraction, Creatinine, Sodium, Platelets.</p>
-                <p>• Low EF indicates weakened heart pumping ability.</p>
-                <p>• High creatinine may indicate kidney stress affecting cardiac health.</p>
-            {% else %}
-                <p>• Stroke model analyzed: BMI, Glucose Level, Hypertension, Heart Disease.</p>
-                <p>• High glucose levels increase stroke probability significantly.</p>
-                <p>• Hypertension is the leading risk factor for stroke.</p>
-            {% endif %}
-        </div>
-
-
-        <div class="mt-10 p-6 bg-blue-50 rounded-xl">
-            <h3 class="font-bold text-blue-800 mb-3">About Stroke (Important)</h3>
-
-            <p class="text-sm text-gray-700">
-                A stroke occurs when blood flow to the brain is interrupted. This can lead to brain damage.
-            </p>
-
-            <ul class="text-sm text-gray-700 mt-3 space-y-1">
-                <li>• Symptoms: Sudden weakness, speech difficulty, vision loss</li>
-                <li>• Major causes: High BP, diabetes, smoking</li>
-                <li>• Prevention: Healthy diet, exercise, BP control</li>
-            </ul>
-        </div>
-
     </div>
 
-
-    <div class="bg-slate-50 p-6 flex justify-between items-center border-t">
-        <p class="text-xs text-slate-400">
-            Chief MD: <span class="font-bold text-slate-600">Akash Kumar Chakram</span>
-        </p>
-        <a href="/" class="px-6 py-2 bg-slate-900 text-white rounded-lg text-sm font-bold">
-            New Analysis
-        </a>
+    <div class="p-8 bg-black/40 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-[10px] font-bold">AC</div>
+            <p class="text-xs text-slate-500 font-medium italic">Verified by Akash Kumar Chakram (MSIT)</p>
+        </div>
+        <div class="flex gap-4">
+            <button onclick="window.print()" class="px-6 py-2 rounded-xl bg-white/5 hover:bg-white/10 transition-all text-xs font-bold border border-white/10">Download PDF</button>
+            <a href="/" class="px-6 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 transition-all text-xs font-bold shadow-lg shadow-blue-600/20">New Scan</a>
+        </div>
     </div>
+    <button onclick="goHome()">Go Back</button>
 
+<script>
+function goHome() {
+    window.location.href = "/";
+}
+</script>
 </div>
 
 </body>
