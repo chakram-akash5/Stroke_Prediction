@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, render_template, redirect, url_for
 from flask_cors import CORS
 import joblib
 import numpy as np
-# from pymongo import MongoClient # Uncomment if using MongoDB
+
 from datetime import datetime
 
 app = Flask(__name__)
@@ -12,10 +12,9 @@ CORS(app)
 def home():
     return render_template('index.html')
 
-# --- Load Models Once ---
-# Ensure these paths are correct according to your folder structure
-brain_model = joblib.load("model/brain_model.pkl")
-heart_model = joblib.load("model/model.pkl")
+
+brain_model = joblib.load("/home/chakram/Stroke_Prediction/model/brain_model.pkl")
+heart_model = joblib.load("/home/chakram/Stroke_Prediction/model/model.pkl")
 
 @app.route('/report')
 def report():
@@ -28,23 +27,26 @@ def report():
 @app.route("/predict/<type>", methods=["POST"])
 def predict(type):
     data = request.json
-    
-    # Run Prediction Logic
+
     if type == "heart":
         features = np.array([[
-            data["age"], data["anaemia"], data["cpk"], data["diabetes"], 
-            data["ef"], data["hbp"], data["platelets"], data["creatinine"], 
+            data["age"], data["anaemia"], data["cpk"], data["diabetes"],
+            data["ef"], data["hbp"], data["platelets"], data["creatinine"],
             data["sodium"], data["sex"], data["smoking"], data["time"]
         ]])
-        prediction = int(heart_model.predict(features)[0])
+
+        proba = heart_model.predict_proba(features)[0][1]
+        prediction = round(proba * 100, 2)
+
     else:
         features = np.array([[
-            data["age"], data["hypertension"], data["heart_disease"], 
+            data["age"], data["hypertension"], data["heart_disease"],
             data["glucose"], data["bmi"], data["smoking_status"]
         ]])
-        prediction = int(brain_model.predict(features)[0])
 
-    # Return prediction for JavaScript to handle redirection
+        proba = brain_model.predict_proba(features)[0][1]
+        prediction = round(proba * 100, 2)
+
     return jsonify({
         "status": "success",
         "risk": prediction,
